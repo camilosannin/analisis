@@ -9,7 +9,6 @@ def removeCharacters(): # Funcion que remueve caracteres especiales (numeros, pu
                                                           # almacena en la variable originalFile.
     clean1 = open("El Coran_Mahoma_001_cleaned.txt", "w") # En este caso, la funcion open() con el modo w:write, 
                                                           # escribe texto en el archivo. Si hay contenido en el archivo
-                                                          # se sobreescribirá. Si el archivo no existe, se creará.
     dictionary1 = [                                         
         (".", " "),
         (",", " "),
