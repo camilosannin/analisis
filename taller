@@ -1,0 +1,304 @@
+from functools import reduce # Libreria para el manejo de funciones de alta prioridad y objetos invocables.
+from time import *   #Librería para manejo de tiempos de ejecución en python
+import matplotlib.pyplot as plt #Librería para generar gráficos en python
+def removeCharacters(): # Funcion que remueve caracteres especiales (numeros, punto, coma,
+                        # signos de interrogacion y admiracion, admiracion, vocales con tilde,
+                        # y mayusculas).
+    originalFile = open("El%20Coran_mahoma_001.txt", "r") # Se usa la funcion open() para abrir el archivo
+                                                          # en modo de lectura (r: read; w: write). El archivo
+                                                          # almacena en la variable originalFile.
+    clean1 = open("El Coran_Mahoma_001_cleaned.txt", "w") # En este caso, la funcion open() con el modo w:write, 
+                                                          # escribe texto en el archivo. Si hay contenido en el archivo
+                                                          # se sobreescribirá. Si el archivo no existe, se creará.
+    dictionary1 = [                                         
+        (".", " "),
+        (",", " "),
+        (":", " "),
+        ("'", " "),
+        ("`'"," "),
+        ("`", " "),
+        (";", " "),
+        ("-", " "),
+        ("(", " "),
+        (")", " "),
+        ("[", " "),
+        ("]", " "),
+        ("0", " "),
+        ("1", " "),
+        ("2", " "),
+        ("3", " "),
+        ("4", " "),
+        ("5", " "),
+        ("6", " "),
+        ("7", " "),
+        ("8", " "),
+        ("9", " "),
+        ("¡", " "),
+        ("!", " "),
+        ("¿", " "),
+        ("?", " "),
+        ("-", " "),
+        (chr(30)," "),
+        (chr(9)," "),
+        (chr(8)," "),
+        (chr(10)," "),
+        (chr(192), "a"),
+        (chr(193), "a"),
+        (chr(194), "a"),
+        (chr(195), "a"),
+        (chr(196), "a"),
+        (chr(197), "a"),
+        (chr(198), "a"),
+        (chr(199), "c"),
+        (chr(200), "e"),
+        (chr(201), "e"),
+        (chr(202), "e"),
+        (chr(203), "e"),
+        (chr(204), "i"),
+        (chr(205), "i"),
+        (chr(206), "i"),
+        (chr(207), "i"),
+        (chr(210), "o"),
+        (chr(211), "o"),
+        (chr(212), "o"),
+        (chr(213), "o"),
+        (chr(214), "o"),
+        (chr(216), "o"),
+        (chr(217), "u"),
+        (chr(218), "u"),
+        (chr(219), "u"),
+        (chr(220), "u"),
+        (chr(221), "y"),
+        (chr(224), "a"),
+        (chr(225), "a"),
+        (chr(226), "a"),
+        (chr(227), "a"),
+        (chr(228), "a"),
+        (chr(229), "a"),
+        (chr(232), "e"),
+        (chr(233), "e"),
+        (chr(234), "e"),
+        (chr(235), "e"),
+        (chr(236), "i"),
+        (chr(237), "i"),
+        (chr(238), "i"),
+        (chr(239), "i"),
+        (chr(240), "o"),
+        (chr(242), "o"),
+        (chr(243), "o"),
+        (chr(244), "o"),
+        (chr(245), "o"),
+        (chr(246), "o"),
+        (chr(248), "o"),
+        (chr(249), "u"),
+        (chr(250), "u"),
+        (chr(251), "u"),
+        (chr(252), "u"),
+        (chr(65), chr(65+32)),
+        (chr(66), chr(66+32)),
+        (chr(67), chr(67+32)),
+        (chr(68), chr(68+32)),
+        (chr(69), chr(69+32)),
+        (chr(70), chr(70+32)),
+        (chr(71), chr(71+32)),
+        (chr(72), chr(72+32)),
+        (chr(73), chr(73+32)),
+        (chr(74), chr(74+32)),
+        (chr(75), chr(75+32)),
+        (chr(76), chr(76+32)),
+        (chr(77), chr(77+32)),
+        (chr(78), chr(78+32)),
+        (chr(79), chr(79+32)),
+        (chr(80), chr(80+32)),
+        (chr(81), chr(81+32)),
+        (chr(82), chr(82+32)),
+        (chr(83), chr(83+32)),
+        (chr(84), chr(84+32)),
+        (chr(85), chr(85+32)),
+        (chr(86), chr(86+32)),
+        (chr(87), chr(87+32)),
+        (chr(88), chr(88+32)),
+        (chr(89), chr(89+32)),
+        (chr(90), chr(90+32)),
+    ] # 
+
+    inputFile = originalFile.read()
+    originalFile.close()
+    
+    outputFile = reduce(lambda a, kv: a.replace(*kv), dictionary1, inputFile)
+    clean1.write(outputFile)
+    clean1.close()
+    print(clean1)
+    print("acm1pt")
+    
+def quicksort(arrayClave,arrayValor, primero, ultimo):  
+    central = int((primero+ultimo)/2)  
+    pivote = arrayValor[central]  
+    i = primero  
+    j = ultimo
+    while i<=j:    
+        while arrayValor[i] < pivote:
+            i+=1
+        while arrayValor[j] > pivote:
+            j-=1
+        if i <= j:
+            aux = arrayValor[i]
+            aux2= arrayClave[i]
+            arrayValor[i] = arrayValor[j]
+            arrayClave[i] = arrayClave[j]
+            arrayValor[j] = aux    
+            arrayClave[j] = aux2
+            i+=1      
+            j-=1    
+    if primero < j:
+   		quicksort(arrayClave,arrayValor, primero, j)
+   
+    if i < ultimo:
+           quicksort(arrayClave,arrayValor, i, ultimo)
+    arreglo=[]
+    for i in range(0,len(arrayClave)):
+        arreglo.append((arrayClave[i],arrayValor[i]))        
+    return arreglo
+    
+def radixsort(arrayClave,arrayValor):
+    
+    colaCla = []
+    colaVal = []
+    for i in range(10):
+        colaCla.append([])
+        colaVal.append([])
+    
+    for i in range(2):
+        exp = pow(10, i)
+        for j in range(10):
+            digit = int((arrayValor[j]/exp) % 10)
+            colaVal[digit].append(arrayValor[j])
+            colaCla[digit].append(arrayClave[j])
+        index=0
+        for x in range(10):
+            if len(colaVal[x]) > 0:
+                for j in range(len(colaVal[x])):
+                  arrayValor[index] = colaVal[x][j]
+                  arrayClave[index] = colaCla[x][j]
+                  index += 1
+            
+        for x in range(10):
+            colaVal[x] = [] 
+            colaCla[x] = []
+    arreglo=[]
+    for i in range(0,len(arrayClave)):
+        arreglo.append((arrayClave[i],arrayValor[i]))        
+    return arreglo
+    
+def frecuencias(array):
+    frequency = {}
+    for word in array:
+        count = frequency.get(word,0)
+        frequency[word] = count + 1   
+    return frequency  
+
+#inicio del main     
+removeCharacters()  #Invocacion metodo para remover caracteres especiales del texto
+archivo = open("El Coran_Mahoma_001_cleaned.txt","r")   #se abre el archivo de texto y se le 
+palabras=archivo.read()
+arregloQuick=[]
+arregloRadix=[]
+i=0
+for aux in palabras.split(" "):
+    if aux != "":
+        arregloQuick.append(aux)            
+archivo.close()            
+arregloQuick=frecuencias(arregloQuick)
+claves=[]
+valores=[]
+for clave,valor in arregloQuick.items():
+     claves.append(clave)
+     valores.append(valor)
+
+start = time()#Se inicia el cronómetro de tiempo
+arregloQuick=quicksort(claves,valores,0,arregloQuick.__len__()-1)#Se invoca la función de Quicksort 
+timeQuick=round(time() - start,2)#Se almacenan el tiempo transcurrido desde el inicio hasta el final del
+                                               #ordenamiento
+start = time()#Se inicia el cronómetro de tiempo
+arregloRadix=radixsort(claves,valores)#Se invoca la función de Radixsort
+timeRadix=round(time() - start,2)#Se almacenan el tiempo transcurrido desde el inicio hasta el final del
+                                                #ordenamiento  
+print("\nQuicksort:\n")
+print("La mediana de las palabras del texto es: "+str(arregloQuick[int(len(arregloQuick)/2)])+"\nLa palabra con la Frecuencia mas alta es: "+str(arregloQuick[len(arregloQuick)-1])+"\nLa palabra con la Frecuencia mas baja es: "+str(arregloQuick[0]))
+
+print("\nRadixsort:\n")
+print("La mediana de las palabras del texto es: "+str(arregloRadix[int(len(arregloRadix)/2)])+"\nLa palabra con la Frecuencia mas alta es: "+str(arregloRadix[len(arregloRadix)-1])+"\nLa palabra con la Frecuencia mas baja es: "+str(arregloRadix[0]))
+
+print("TIEMPO QUICKSORT: "+str(timeQuick)+"\nTIEMPO RADIXSORT: "+str(timeRadix))
+
+timesQuick=[]#Se inicializa el arreglo que almacenará los tiempos de Quick sort
+timesRadix=[]#Se inicializa el arreglo que almacenará los tiempos de Radix sort
+ndata=[]#Se inicializa el arreglo que almacenará los datos del eje x
+for k in range(100,101):
+    
+    start = time()#Se inicia el cronómetro de tiempo
+    quicksort(claves,valores,0,k)#Se invoca la función de Quicksort 
+    timesQuick.append(round(time() - start,2))#Se almacenan el tiempo transcurrido desde el inicio hasta el final del
+                                               #ordenamiento
+    start = time()#Se inicia el cronómetro de tiempo
+    radixsort(claves[:k],valores[:k])#Se invoca la función de Radixsort
+    timesRadix.append(round(time() - start,5))#Se almacenan el tiempo transcurrido desde el inicio hasta el final del
+                                                #ordenamiento    
+    ndata.append(k)#Aquí se va guardando los valores del eje x (tamaño de muestra)    
+    
+for l in range(500,4000,500):
+    
+    start = time()#Se inicia el cronómetro de tiempo
+    quicksort(claves,valores,0,l)#Se invoca la función de Quicksort 
+    timesQuick.append(round(time() - start,2))#Se almacenan el tiempo transcurrido desde el inicio hasta el final del
+                                               #ordenamiento
+    
+    start = time()#Se inicia el cronómetro de tiempo
+    radixsort(claves[:l],valores[:l])#Se invoca la función de Radixsort
+    timesRadix.append(round(time() - start,5))#Se almacenan el tiempo transcurrido desde el inicio hasta el final del
+                                                
+    ndata.append(l)#Aquí se va guardando los valores del eje x (tamaño de muestra)
+                                            
+print("\nTIEMPOS QUICKSORT:\n")
+print("100 primeras palabras: "+str(timesQuick[0]))
+print("\n500 primeras palabras: "+str(timesQuick[1]))
+print("\n1500 primeras palabras: "+str(timesQuick[2]))
+print("\n2000 primeras palabras: "+str(timesQuick[3]))
+print("\n2500 primeras palabras: "+str(timesQuick[4]))  
+print("\n3000 primeras palabras: "+str(timesQuick[5]))
+print("\n3500 primeras palabras: "+str(timesQuick[6]))
+print("\n4000 primeras palabras: "+str(timesQuick[7]))
+
+print("\nTIEMPOS RADIXSORT:\n")
+print("100 primeras palabras: "+str(timesRadix[0]))
+print("\n500 primeras palabras: "+str(timesRadix[1]))
+print("\n1500 primeras palabras: "+str(timesRadix[2]))
+print("\n2000 primeras palabras: "+str(timesRadix[3]))
+print("\n2500 primeras palabras: "+str(timesRadix[4]))  
+print("\n3000 primeras palabras: "+str(timesRadix[5]))
+print("\n3500 primeras palabras: "+str(timesRadix[6]))
+print("\n4000 primeras palabras: "+str(timesRadix[7]))    
+
+
+fig = plt.figure(figsize=(14, 7), dpi=100)#Dimension de la figura    
+plt.plot(ndata,timesRadix,'r')#Aquí se realiza una gráfica de los tiempos de Quicksort, color rojo(r=red)
+
+plt.title("Algoritmo de ordenamiento RADIX SORT")
+plt.xlabel("Datos (n)")#Eje X
+plt.ylabel("Tiempo (s)")#Eje Y
+plt.legend(["Radix Sort"],loc=2)#Leyendas de las gráficas
+
+plt.grid()#Dibuja la grilla
+plt.show()#Dibujar las gráficas
+
+
+
+
+
+
+
+
+
+
+
+
