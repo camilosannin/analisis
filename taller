@@ -4,11 +4,19 @@ import matplotlib.pyplot as plt #Librería para generar gráficos en python
 def removeCharacters(): # Funcion que remueve caracteres especiales (numeros, punto, coma,
                         # signos de interrogacion y admiracion, admiracion, vocales con tilde,
                         # y mayusculas).
-    originalFile = open("El%20Coran_mahoma_001.txt", "r") # Se usa la funcion open() para abrir el archivo
+    originalFile1 = open("El Coran_Mahoma_001.txt", "r")  # Se usa la funcion open() para abrir el archivo
                                                           # en modo de lectura (r: read; w: write). El archivo
                                                           # almacena en la variable originalFile.
-    clean1 = open("El Coran_Mahoma_001_cleaned.txt", "w") # En este caso, la funcion open() con el modo w:write, 
+    originalFile2 = open("El Coran_Mahoma_002.txt", "r")
+    originalFile3 = open("El Coran_Mahoma_003.txt", "r")
+    clean1 = open("El Coran_CleanedComplete.txt", "w")    # En este caso, la funcion open() con el modo w:write, 
                                                           # escribe texto en el archivo. Si hay contenido en el archivo
+                                                          # se sobreescribirá. Si el archivo no existe, se creará.
+    
+    #for i in range(33,47,1):
+    #    dictionary1 = [
+    #        (chr(i), " "),
+    #    ]
     dictionary1 = [                                         
         (".", " "),
         (",", " "),
@@ -38,6 +46,7 @@ def removeCharacters(): # Funcion que remueve caracteres especiales (numeros, pu
         ("?", " "),
         ("-", " "),
         (chr(30)," "),
+        (chr(34)," "),
         (chr(9)," "),
         (chr(8)," "),
         (chr(10)," "),
@@ -121,11 +130,23 @@ def removeCharacters(): # Funcion que remueve caracteres especiales (numeros, pu
         (chr(90), chr(90+32)),
     ] # 
 
-    inputFile = originalFile.read()
-    originalFile.close()
+    inputFile1 = originalFile1.read()
+    inputFile2 = originalFile2.read()
+    inputFile3 = originalFile3.read()
     
-    outputFile = reduce(lambda a, kv: a.replace(*kv), dictionary1, inputFile)
-    clean1.write(outputFile)
+    originalFile1.close()
+    originalFile2.close()
+    originalFile3.close()
+    
+    outputFile1 = reduce(lambda a, kv: a.replace(*kv), dictionary1, inputFile1)
+    clean1.write(outputFile1)
+
+    outputFile2 = reduce(lambda a, kv: a.replace(*kv), dictionary1, inputFile2)
+    clean1.write(outputFile2)
+
+    outputFile3 = reduce(lambda a, kv: a.replace(*kv), dictionary1, inputFile3)
+    clean1.write(outputFile3)
+    
     clean1.close()
     print(clean1)
     print("acm1pt")
@@ -198,7 +219,7 @@ def frecuencias(array):
 
 #inicio del main     
 removeCharacters()  #Invocacion metodo para remover caracteres especiales del texto
-archivo = open("El Coran_Mahoma_001_cleaned.txt","r")   #se abre el archivo de texto y se le 
+archivo = open("El Coran_CleanedComplete.txt","r")   #se abre el archivo de texto y se le 
 palabras=archivo.read()
 arregloQuick=[]
 arregloRadix=[]
@@ -220,7 +241,7 @@ timeQuick=round(time() - start,2)#Se almacenan el tiempo transcurrido desde el i
                                                #ordenamiento
 start = time()#Se inicia el cronómetro de tiempo
 arregloRadix=radixsort(claves,valores)#Se invoca la función de Radixsort
-timeRadix=round(time() - start,2)#Se almacenan el tiempo transcurrido desde el inicio hasta el final del
+timeRadix=(time() - start) #round(time() - start,4)#Se almacenan el tiempo transcurrido desde el inicio hasta el final del
                                                 #ordenamiento  
 print("\nQuicksort:\n")
 print("La mediana de las palabras del texto es: "+str(arregloQuick[int(len(arregloQuick)/2)])+"\nLa palabra con la Frecuencia mas alta es: "+str(arregloQuick[len(arregloQuick)-1])+"\nLa palabra con la Frecuencia mas baja es: "+str(arregloQuick[0]))
@@ -237,24 +258,26 @@ for k in range(100,101):
     
     start = time()#Se inicia el cronómetro de tiempo
     quicksort(claves,valores,0,k)#Se invoca la función de Quicksort 
-    timesQuick.append(round(time() - start,2))#Se almacenan el tiempo transcurrido desde el inicio hasta el final del
+    timesQuick.append(round(time() - start,7))#Se almacenan el tiempo transcurrido desde el inicio hasta el final del
                                                #ordenamiento
     start = time()#Se inicia el cronómetro de tiempo
     radixsort(claves[:k],valores[:k])#Se invoca la función de Radixsort
-    timesRadix.append(round(time() - start,5))#Se almacenan el tiempo transcurrido desde el inicio hasta el final del
+    timesRadix.append((time() - start)*1000)
+    #timesRadix.append(round(time() - start,4))#Se almacenan el tiempo transcurrido desde el inicio hasta el final del
                                                 #ordenamiento    
     ndata.append(k)#Aquí se va guardando los valores del eje x (tamaño de muestra)    
     
-for l in range(500,4000,500):
+for l in range(500,4001,500):
     
     start = time()#Se inicia el cronómetro de tiempo
     quicksort(claves,valores,0,l)#Se invoca la función de Quicksort 
-    timesQuick.append(round(time() - start,2))#Se almacenan el tiempo transcurrido desde el inicio hasta el final del
+    timesQuick.append(round(time() - start,7))#Se almacenan el tiempo transcurrido desde el inicio hasta el final del
                                                #ordenamiento
     
     start = time()#Se inicia el cronómetro de tiempo
     radixsort(claves[:l],valores[:l])#Se invoca la función de Radixsort
-    timesRadix.append(round(time() - start,5))#Se almacenan el tiempo transcurrido desde el inicio hasta el final del
+    timesRadix.append((time() - start)*1000)
+    #timesRadix.append(round(time() - start,4))#Se almacenan el tiempo transcurrido desde el inicio hasta el final del
                                                 
     ndata.append(l)#Aquí se va guardando los valores del eje x (tamaño de muestra)
                                             
@@ -279,25 +302,14 @@ print("\n3500 primeras palabras: "+str(timesRadix[6]))
 print("\n4000 primeras palabras: "+str(timesRadix[7]))    
 
 
-fig = plt.figure(figsize=(14, 7), dpi=100)#Dimension de la figura    
-plt.plot(ndata,timesRadix,'r')#Aquí se realiza una gráfica de los tiempos de Quicksort, color rojo(r=red)
+fig = plt.figure(figsize=(14, 7), dpi=80)#Dimension de la figura    
+plt.plot(ndata,timesRadix,'rs', linestyle='--')#Aquí se realiza una gráfica de los tiempos de Quicksort, color rojo(r=red)
 
-plt.title("Algoritmo de ordenamiento RADIX SORT")
-plt.xlabel("Datos (n)")#Eje X
-plt.ylabel("Tiempo (s)")#Eje Y
-plt.legend(["Radix Sort"],loc=2)#Leyendas de las gráficas
+plt.title("Algoritmo de ordenamiento RADIXSORT")
+plt.xlabel("Datos (n)\nEl tiempo en segundos fue multiplicado por 1000")#Eje X
+#plt.xlabel("                       El tiempo en segundos fue multiplicado por 1000,")
+plt.ylabel("Tiempo en milisegundos(s*1000)")#Eje Y
+plt.legend(["Radixsort"],loc=2)#Leyendas de las gráficas
 
 plt.grid()#Dibuja la grilla
 plt.show()#Dibujar las gráficas
-
-
-
-
-
-
-
-
-
-
-
-
